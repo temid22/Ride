@@ -51,6 +51,28 @@ const HomeScreen = () => {
   //   console.log('reverseGeocoded Address');
   //   console.log(reverseGeocodedLocation);
   // };
+  const getPermmissions = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+
+    if (status !== 'granted') {
+      console.log('Please grant Permmission');
+      return;
+    }
+
+    let currentLocation = await Location.getCurrentPositionAsync({});
+    // console.log(currentLocation);
+    // setLiveLocation(currentLocation);
+
+    const location = {
+      lng: currentLocation?.coords?.longitude,
+      lat: currentLocation?.coords?.latitude,
+    };
+    dispatch(
+      setOrigin({
+        location,
+      })
+    );
+  };
 
   return (
     <SafeAreaView style={tw`bg-gray-900 h-full `}>
@@ -102,7 +124,10 @@ const HomeScreen = () => {
         nearbyPlacesAPI='GooglePlacesSearch'
         debounce={400}
       />
-      <TouchableOpacity style={tw`flex-row items-center p-2`}>
+      <TouchableOpacity
+        style={tw`flex-row items-center p-2`}
+        onPress={getPermmissions}
+      >
         <Icon
           style={tw`mr-4 rounded-full bg-gray-800 p-3`}
           name='location'
