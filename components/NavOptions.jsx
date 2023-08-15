@@ -45,7 +45,7 @@ const NavOptions = () => {
               {item.title}
             </Text>
             <Icon
-              style={tw`p-2 w-10 rounded-full mt-4 bg-gray-900`}
+              style={tw`p-2 w-10 rounded mt-4 bg-gray-900`}
               name='arrowright'
               color='white'
               type='antdesign'

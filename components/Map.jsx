@@ -30,7 +30,7 @@ const Map = () => {
 
     const getTravelTime = async () => {
       const URL = `https://maps.google.com/maps/api/distancematrix/json?units=imperial&origins=${origin.description}&destinations=${destination.description}&departure_time=now&key=${GOOGLE_MAPS_APIKEY}`;
-      await fetch(URL, { method: 'GET', headers: {} })
+      await fetch(URL, { method: 'GET' })
         .then((res) => res.json())
         .then((data) => {
           dispatch(
@@ -40,6 +40,7 @@ const Map = () => {
         .catch((error) => console.log(error));
     };
 
+    console.log(origin.description);
     getTravelTime();
   }, [destination, GOOGLE_MAPS_APIKEY, origin]);
 
