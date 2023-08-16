@@ -17,22 +17,22 @@ const HomeScreen = () => {
   const [liveLocation, setLiveLocation] = useState();
   const [address, setaddress] = useState();
 
-  useEffect(() => {
-    const getPermmissions = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+  // useEffect(() => {
+  //   const getPermmissions = async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
 
-      if (status !== 'granted') {
-        console.log('Please grant Permmission');
-        return;
-      }
+  //     if (status !== 'granted') {
+  //       console.log('Please grant Permmission');
+  //       return;
+  //     }
 
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      console.log(currentLocation);
-      setLiveLocation(currentLocation);
-    };
+  //     let currentLocation = await Location.getCurrentPositionAsync({});
+  //     // console.log(currentLocation);
+  //     setLiveLocation(currentLocation);
+  //   };
 
-    getPermmissions();
-  }, []);
+  //   getPermmissions();
+  // }, []);
 
   // convert address to lon and lat
   //   const geocode = async ()=> {
@@ -51,6 +51,7 @@ const HomeScreen = () => {
   //   console.log('reverseGeocoded Address');
   //   console.log(reverseGeocodedLocation);
   // };
+
   const getPermmissions = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
 
@@ -63,6 +64,13 @@ const HomeScreen = () => {
     // console.log(currentLocation);
     // setLiveLocation(currentLocation);
 
+    const reverseGeocodedLocation = await Location.reverseGeocodeAsync({
+      longitude: currentLocation?.coords.longitude,
+      latitude: currentLocation?.coords.latitude,
+    });
+
+    const description = reverseGeocodedLocation[0]?.city;
+
     const location = {
       lng: currentLocation?.coords?.longitude,
       lat: currentLocation?.coords?.latitude,
@@ -70,6 +78,7 @@ const HomeScreen = () => {
     dispatch(
       setOrigin({
         location,
+        description,
       })
     );
   };
