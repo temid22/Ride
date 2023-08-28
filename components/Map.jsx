@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import tw from 'twrnc';
 import MapViewDirections from 'react-native-maps-directions';
 import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   selectDestination,
   selectOrigin,

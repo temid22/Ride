@@ -5,6 +5,9 @@ import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { selectOrigin } from '../slices/navSlice';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useContext } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const data = [
   {
@@ -24,6 +27,17 @@ const data = [
 const NavOptions = () => {
   const navigation = useNavigation();
   const origin = useSelector(selectOrigin);
+
+  const [isLightMode, setisLightMode] = useState(false);
+  const { lightMode, dispatchh } = useContext(LightModeContext);
+
+  useEffect(() => {
+    const getTheme = async () => {
+      const lightMode = await AsyncStorage.getItem('lightMode');
+      setisLightMode(JSON.parse(lightMode));
+    };
+    getTheme();
+  }, [dispatchh, lightMode]);
 
   return (
     <FlatList

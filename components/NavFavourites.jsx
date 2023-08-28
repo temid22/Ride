@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import tw from 'twrnc';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   FlatList,
   StyleSheet,
@@ -8,6 +9,8 @@ import {
   View,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { LightModeContext } from '../context/lightModeContext';
+import { useContext } from 'react';
 
 const data = [
   {
@@ -25,6 +28,16 @@ const data = [
 ];
 
 const NavFavorites = () => {
+  const [isLightMode, setisLightMode] = useState(false);
+  const { lightMode, dispatchh } = useContext(LightModeContext);
+
+  useEffect(() => {
+    const getTheme = async () => {
+      const lightMode = await AsyncStorage.getItem('lightMode');
+      setisLightMode(JSON.parse(lightMode));
+    };
+    getTheme();
+  }, [dispatchh, lightMode]);
   return (
     <FlatList
       data={data}
@@ -42,8 +55,18 @@ const NavFavorites = () => {
             size={20}
           />
           <View>
-            <Text style={tw`text-white font-semibold text-lg`}>{location}</Text>
-            <Text style={tw`text-neutral-300`}>{destination}</Text>
+            <Text
+              style={tw`${
+                isLightMode ? 'text-gray-900' : 'text-white'
+              } font-semibold text-lg`}
+            >
+              {location}
+            </Text>
+            <Text
+              style={tw`${isLightMode ? 'text-gray-700' : 'text-neutral-300'}`}
+            >
+              {destination}
+            </Text>
           </View>
         </TouchableOpacity>
       )}
