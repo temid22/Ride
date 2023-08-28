@@ -109,7 +109,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView
-      style={tw`${isLightMode ? 'bg-gray-100' : 'bg-gray-900'} h-full `}
+      style={tw` ${isLightMode ? 'bg-gray-100 ' : 'bg-gray-900'} h-full `}
     >
       <View style={tw`flex justify-between flex-row`}>
         <View style={tw`p-5`}>
@@ -137,40 +137,42 @@ const HomeScreen = () => {
         </View>
       </View>
 
-      <GooglePlacesAutocomplete
-        styles={{
-          container: {
-            flex: 0,
-            overflow: 'visible',
-          },
-          textInput: {
-            fontSize: 18,
-            backgroundColor: `${isLightMode ? '#e2e8f0' : '#fff'}`,
-          },
-          predefinedPlacesDescription: {
-            color: '#1faadb',
-          },
-        }}
-        onPress={(data, details = null) => {
-          dispatch(
-            setOrigin({
-              location: details?.geometry?.location,
-              description: data?.description,
-            })
-          );
-          dispatch(setDestination(null));
-        }}
-        fetchDetails={true}
-        enablePoweredByContainer={false}
-        returnKeyType={'search'}
-        query={{
-          key: GOOGLE_MAPS_APIKEY,
-          language: 'en',
-        }}
-        placeholder='Where From...'
-        nearbyPlacesAPI='GooglePlacesSearch'
-        debounce={400}
-      />
+      <View style={tw`z-50 shadow-xl p-2`}>
+        <GooglePlacesAutocomplete
+          styles={{
+            container: {
+              flex: 0,
+              overflow: 'visible',
+            },
+            textInput: {
+              fontSize: 18,
+              backgroundColor: `${isLightMode ? '#d1d5db' : '#fff'}`,
+            },
+            predefinedPlacesDescription: {
+              color: '#1faadb',
+            },
+          }}
+          onPress={(data, details = null) => {
+            dispatch(
+              setOrigin({
+                location: details?.geometry?.location,
+                description: data?.description,
+              })
+            );
+            dispatch(setDestination(null));
+          }}
+          fetchDetails={true}
+          enablePoweredByContainer={false}
+          returnKeyType={'search'}
+          query={{
+            key: GOOGLE_MAPS_APIKEY,
+            language: 'en',
+          }}
+          placeholder='Where From...'
+          nearbyPlacesAPI='GooglePlacesSearch'
+          debounce={400}
+        />
+      </View>
       <TouchableOpacity
         style={tw`flex-row items-center p-2`}
         onPress={getPermmissions}

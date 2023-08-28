@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LightModeContext } from '../context/lightModeContext';
+import { useEffect } from 'react';
 
 const data = [
   {
@@ -47,7 +49,9 @@ const NavOptions = () => {
       renderItem={({ item }) => (
         <TouchableOpacity
           onPress={() => navigation.navigate(item.screen)}
-          style={tw`p-2 pl-6 pb-8 pt-4 bg-gray-700 m-4.5 w-40 h-60 rounded `}
+          style={tw` ${
+            isLightMode ? 'bg-gray-400 ' : 'bg-gray-700'
+          } p-2 pl-6 pb-8 pt-4 m-4.5 w-40 h-60 rounded `}
           disabled={origin ? false : true}
         >
           <View style={tw`${origin ? 'opacity-100' : 'opacity-50'}`}>
